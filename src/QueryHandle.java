@@ -35,6 +35,12 @@ public class QueryHandle extends Thread {
             else if( queryType.equalsIgnoreCase("reviewquery") ) {
                 getReview();
             }
+            else if( queryType.equalsIgnoreCase("srcdstquery") ) {
+                srcdstquery();
+            }
+            else if( queryType.equalsIgnoreCase("routequery") ) {
+                routequery();
+            }
 
             socket.close();
         }
@@ -83,12 +89,30 @@ public class QueryHandle extends Thread {
         int count = 2;
         out.writeObject(count);
         for( int i=0; i<count; i++ ) {
-//            companyID, reviewID, busNo, rating, comment;
-            out.writeObject(1);
-            out.writeObject(2);
-            out.writeObject(3);
-            out.writeObject(4);
+            out.writeObject("Takbir");
             out.writeObject("Good");
+        }
+    }
+
+    private void srcdstquery() throws Exception {
+        String src = (String) in.readObject();
+        String dst = (String) in.readObject();
+
+        out.writeObject("route data");
+    }
+
+    private void routequery() throws Exception {
+        String routeData = (String) in.readObject();
+
+        ArrayList<String> trendingBuses = new ArrayList<>();
+        trendingBuses.add("Boishakhi");
+        trendingBuses.add("Boishakhi");
+        trendingBuses.add("Silk Line");
+        trendingBuses.add("Super");
+
+        out.writeObject(trendingBuses.size());
+        for( int i=0; i<trendingBuses.size(); i++ ) {
+            out.writeObject(trendingBuses.get(i));
         }
     }
 }
